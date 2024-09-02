@@ -1,123 +1,122 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <string>
+#include <vector>
+#include <random>
+#include <algorithm>
 #include <cctype>
 
-using namespace std;
+// Kullanýcýdan evet/hayýr yanýtýný alacak fonksiyon
+bool getYesOrNo(const std::string& prompt) {
+    std::string response;
+    while (true) {
+        std::cout << prompt << " (Y/N): ";
+        std::cin >> response;
 
-string GeneratePassword(int length, char customSpecialChar, bool addRandomNumber, char customNumber) {
-    const string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const string specialChars = "!@#$%^&*()_+";
-    const string digitChars = "0123456789";
+        // Küçük harfe çevir
+        for (auto& c : response) c = std::tolower(c);
 
-    string password;
-
-    if (length < 1) {
-        return "Gecersiz uzunluk!";
-    }
-
-    // Zorunlu bir buyuk harf ekleyelim
-    password += uppercaseChars[rand() % uppercaseChars.length()];
-
-    // Ozetle karakteri kendiniz girmek ister misiniz?
-    cout << "Ozel karakteri kendiniz girmek ister misiniz? (Yes/No veya Y/N olarak cevap verin): ";
-    string customSpecialCharChoice;
-    cin >> customSpecialCharChoice;
-
-    if (customSpecialCharChoice == "Yes" || customSpecialCharChoice == "Y" || customSpecialCharChoice == "yes" || customSpecialCharChoice == "y") {
-        cout << "Ozel karakteri girin: ";
-        cin >> customSpecialChar;
-    }
-    else {
-        const string allSpecialChars = specialChars;
-        cout << "Ozel karakter rastgele olusturulsun mu? (Yes/No veya Y/N olarak cevap verin): ";
-        string randomSpecialCharChoice;
-        cin >> randomSpecialCharChoice;
-
-        if (randomSpecialCharChoice == "Yes" || randomSpecialCharChoice == "Y" || randomSpecialCharChoice == "yes" || randomSpecialCharChoice == "y") {
-            customSpecialChar = allSpecialChars[rand() % allSpecialChars.length()];
+        if (response == "y" || response == "yes") {
+            return true;
+        }
+        else if (response == "n" || response == "no") {
+            return false;
         }
         else {
-            customSpecialChar = '\0'; // Ozel karakter eklenmeyecek
+            std::cout << "Lutfen 'Y' veya 'N' olarak cevap verin.\n";
         }
     }
+}
 
-    // Ozetle sayi girmek ister misiniz?
-    cout << "Ozel sayi girmek ister misiniz? (Yes/No veya Y/N olarak cevap verin): ";
-    string customNumberChoice;
-    cin >> customNumberChoice;
+// Parola oluþturma fonksiyonu
+std::string GeneratePassword(int length, bool includeUppercase, bool includeLowercase, bool includeDigits, bool includeSymbols) {
+    // Karakter setlerini tanýmla
+    const std::string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const std::string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const std::string digitChars = "0123456789";
+    const std::string symbolChars = "!@#$%^&*()_+-=[]{}|;:,.<>?";
 
-    if (customNumberChoice == "Yes" || customNumberChoice == "Y" || customNumberChoice == "yes" || customNumberChoice == "y") {
-        cout << "Ozel sayiyi girin: ";
-        cin >> customNumber;
-    }
-    else {
-        const string allDigitChars = digitChars;
-        cout << "Ozel sayi rastgele olusturulsun mu? (Yes/No veya Y/N olarak cevap verin): ";
-        string randomNumberChoice;
-        cin >> randomNumberChoice;
+    std::vector<std::string> selectedSets;
+    if (includeUppercase) selectedSets.push_back(uppercaseChars);
+    if (includeLowercase) selectedSets.push_back(lowercaseChars);
+    if (includeDigits) selectedSets.push_back(digitChars);
+    if (includeSymbols) selectedSets.push_back(symbolChars);
 
-        if (randomNumberChoice == "Yes" || randomNumberChoice == "Y" || randomNumberChoice == "yes" || randomNumberChoice == "y") {
-            customNumber = allDigitChars[rand() % allDigitChars.length()];
-        }
-        else {
-            customNumber = '\0'; // Ozel sayi eklenmeyecek
-        }
+    if (selectedSets.empty()) {
+        return "Hata: En az bir karakter seti seçmelisiniz!";
     }
 
-    // Rastgele sayi eklemek ister misiniz?
-    cout << "Rastgele sayi eklemek ister misiniz? (Yes/No veya Y/N olarak cevap verin): ";
-    string addRandomNumberChoice;
-    cin >> addRandomNumberChoice;
-
-    if (addRandomNumberChoice == "Yes" || addRandomNumberChoice == "Y" || addRandomNumberChoice == "yes" || addRandomNumberChoice == "y") {
-        password += digitChars[rand() % digitChars.length()];
+    if (length < selectedSets.size()) {
+        return "Hata: Parola uzunluðu, seçilen karakter türlerinin sayýsýndan küçük olamaz!";
     }
 
-    // Ozetle karakteri ekleyelim
-    if (customSpecialChar != '\0') {
-        password += customSpecialChar;
+    // Rastgele sayý üretimi için C++ random kütüphanesini kullan
+    std::random_device rd;
+    std::mt19937 generator(rd());
+
+    std::uniform_int_distribution<> dist(0, 0); // Baþlangýçta geçerli deðil
+
+    std::string password;
+    // Ýlk olarak, her karakter setinden en az bir karakter ekleyelim
+    for (const auto& set : selectedSets) {
+        std::uniform_int_distribution<> distSet(0, set.size() - 1);
+        password += set[distSet(generator)];
     }
 
-    // Ozel sayiyi ekleyelim
-    if (customNumber != '\0') {
-        password += customNumber;
+    // Kalan karakterleri rastgele seçilen tüm karakter setlerinden ekleyelim
+    std::string allChars;
+    for (const auto& set : selectedSets) {
+        allChars += set;
     }
 
-    // Geri kalan karakterleri rastgele secelim
-    const string allChars = lowercaseChars + uppercaseChars;
-    for (int i = password.length(); i < length; ++i) {
-        password += allChars[rand() % allChars.length()];
+    std::uniform_int_distribution<> distAll(0, allChars.size() - 1);
+    for (int i = password.size(); i < length; ++i) {
+        password += allChars[distAll(generator)];
     }
 
-    // Sifreyi karistiralim
-    for (int i = 0; i < length; ++i) {
-        int swapIndex = rand() % length;
-        swap(password[i], password[swapIndex]);
-    }
+    // Þifreyi karýþtýralým
+    std::shuffle(password.begin(), password.end(), generator);
 
     return password;
 }
 
 int main() {
-    srand(time(0));
-
+    // Kullanýcýdan giriþ almak için
     int length;
-    char customSpecialChar = '\0';
-    char customNumber = '\0';
+    bool includeUppercase, includeLowercase, includeDigits, includeSymbols;
 
-    cout << "Kac haneli bir parola olusturmak istersiniz: ";
-    cin >> length;
+    std::cout << "Parola olusturucuya hosgeldiniz!\n";
 
-    if (length < 1) {
-        cout << "Gecersiz uzunluk!" << endl;
-        return 1;
+    // Parola uzunluðunu al
+    while (true) {
+        std::cout << "Olusturmak istediginiz parolanin uzunlugunu girin (minimum 4): ";
+        std::cin >> length;
+
+        if (std::cin.fail() || length < 4) {
+            std::cin.clear(); // Hatalý giriþ temizle
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Giriþi temizle
+            std::cout << "Gecersiz uzunluk. Lutfen 4 veya daha buyuk bir sayi girin.\n";
+        }
+        else {
+            break;
+        }
     }
 
-    string password = GeneratePassword(length, customSpecialChar, true, customNumber); // Rastgele sayi eklemek icin true
-    cout << "Olusturulan parola: " << password << endl;
+    // Kullanýcý seçimlerini al
+    includeUppercase = getYesOrNo("Buyuk harf kullanilsin mi");
+    includeLowercase = getYesOrNo("Kucuk harf kullanilsin mi");
+    includeDigits = getYesOrNo("Rakam kullanilsin mi");
+    includeSymbols = getYesOrNo("Sembol kullanilsin mi");
+
+    // Parola oluþtur
+    std::string password = GeneratePassword(length, includeUppercase, includeLowercase, includeDigits, includeSymbols);
+
+    // Hata kontrolü
+    if (password.find("Hata") == 0) {
+        std::cout << password << std::endl;
+    }
+    else {
+        std::cout << "Olusturulan parola: " << password << std::endl;
+    }
 
     return 0;
 }

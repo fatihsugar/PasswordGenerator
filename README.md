@@ -1,19 +1,28 @@
 # Şifre Oluşturma Programı
 
-Bu program, kullanıcının belirlediği uzunlukta rastgele bir şifre oluşturur. Şifre, büyük harf, özel karakter ve sayı içerebilir. Kullanıcı, özel karakter ve sayıyı manuel olarak girebilir veya rastgele oluşturulmasını seçebilir.
+Bu proje, kullanıcıların güçlü ve güvenli parolalar oluşturmasına yardımcı olan bir C++ programıdır. ESET parola oluşturucudan örnek alınarak yapılmıştır ve onun gibi çalışarak, kullanıcının seçtiği karakter setlerine ve parola uzunluğuna göre rastgele parolalar üretir.
+
+## Özellikler
+- Büyük Harfler: Parolada büyük harf kullanma seçeneği.
+- Küçük Harfler: Parolada küçük harf kullanma seçeneği.
+- Rakamlar: Parolada rakam kullanma seçeneği.
+- Semboller: Parolada özel semboller kullanma seçeneği.
+- Güçlü Rastgelelik: std::random_device ve std::mt19937 kullanarak güvenli rastgele sayı üretimi.
+- Kullanıcı Dostu Arayüz: Basit ve anlaşılır komut satırı arayüzü ile kullanıcı girdileri kolayca alınabilir.
+
 
 ## Kurulum
 
 1. Bu projeyi yerel makinenize klonlayın:
 
     ```sh
-    git clone https://github.com/kullaniciadi/projeadi.git
+    git clone https://github.com/fatihsugar/PasswordGenerator.git
     ```
 
 2. Proje dizinine gidin:
 
     ```sh
-    cd projeadi
+    cd PasswordGenerator
     ```
 
 ## Visual Studio ile Derleme ve Çalıştırma
@@ -30,29 +39,35 @@ Bu program, kullanıcının belirlediği uzunlukta rastgele bir şifre oluşturu
 
 ## Kullanım
 
-Programı çalıştırdıktan sonra, aşağıdaki adımları izleyerek şifrenizi oluşturabilirsiniz:
+Program çalıştığında, sırasıyla şu sorularla karşılaşacaksınız:
 
-1. Şifrenin kaç haneli olacağını girin.
-2. Özel bir karakter eklemek isteyip istemediğinizi belirtin. Eğer isterseniz, özel karakteri girin.
-3. Özel bir sayı eklemek isteyip istemediğinizi belirtin. Eğer isterseniz, özel sayıyı girin.
-4. Rastgele bir sayı eklemek isteyip istemediğinizi belirtin.
-5. Oluşturulan şifre ekranda görüntülenecektir.
+1. Parola Uzunluğu: Oluşturmak istediğiniz parolanın uzunluğunu girin.
+2. Büyük Harf Kullanımı: Parolada büyük harf kullanmak isteyip istemediğinizi belirtin.
+3. Küçük Harf Kullanımı: Parolada küçük harf kullanmak isteyip istemediğinizi belirtin.
+4. Rakam Kullanımı: Parolada rakam kullanmak isteyip istemediğinizi belirtin.
+5. Sembol Kullanımı: Parolada sembol kullanmak isteyip istemediğinizi belirtin.
+
+Program bu bilgilere dayanarak rastgele bir parola oluşturur ve ekranda gösterir.
 
 ## Örnek Kullanım
 
 ```sh
-Kac haneli bir parola olusturmak istersiniz: 12
-Ozel karakteri kendiniz girmek ister misiniz? (Yes/No veya Y/N olarak cevap verin): Y
-Ozel karakteri girin: @
-Ozel sayi girmek ister misiniz? (Yes/No veya Y/N olarak cevap verin): N
-Ozel sayi rastgele olusturulsun mu? (Yes/No veya Y/N olarak cevap verin): Y
-Rastgele sayi eklemek ister misiniz? (Yes/No veya Y/N olarak cevap verin): Y
-Olusturulan parola: Ab@7tzkLmYsR
+Parola olusturucuya hosgeldiniz!
+Oluşturmak istediğiniz parolanın uzunlugunu girin (minimum 4): 12
+Buyuk harf kullanilsin mi (Y/N): Y
+Kuçuk harf kullanilsin mi (Y/N): Y
+Rakam kullanilsin mi (Y/N): Y
+Sembol kullanilsin mi (Y/N): Y
+Oluşturulan parola: A3d@fG7!kLpQ
+```
 
 ## Gereksinimler
 - Visual Studio 2019 veya daha yeni bir sürümü
 - C++ destekleyen her hangi bir derleyici program,
 
 ## Katkıda Bulunma
-Eğer bu projeye katkıda bulunmak isterseniz, lütfen bir pull request oluşturun veya bir sorun (issue) açın.
+Bu projeye katkıda bulunmak isterseniz, lütfen bir pull request açın veya bir issue oluşturun. Her türlü katkı ve geri bildirim değerlidir!
+
+## Lisans
+Bu proje MIT lisansı altında lisanslanmıştır. Daha fazla bilgi için LICENSE dosyasını inceleyebilirsiniz.
 
