@@ -10,4 +10,5 @@ C:\Users\ITopya\Desktop\PasswordGenerator\passgenerator\passcreator\passcreator.
 C:\Users\ITopya\Desktop\PasswordGenerator\passgenerator\passcreator\passcreator.cpp(71,64): warning C4267:             _Ty=int
 C:\Users\ITopya\Desktop\PasswordGenerator\passgenerator\passcreator\passcreator.cpp(71,64): warning C4267:         ]
 C:\Users\ITopya\Desktop\PasswordGenerator\passgenerator\passcreator\passcreator.cpp(72,16): warning C4267: 'başlatılıyor': 'size_t' - 'int' dönüşümü; veri kaybı olabilir
+  LINK : C:\Users\ITopya\Desktop\PasswordGenerator\passgenerator\x64\Debug\passcreator.exe bulunamadı veya son artımlı bağlantı tarafından oluşturulmadı; tam bağlantı gerçekleştiriliyor
   passcreator.vcxproj -> C:\Users\ITopya\Desktop\PasswordGenerator\passgenerator\x64\Debug\passcreator.exe
